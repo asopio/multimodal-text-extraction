@@ -1,0 +1,122 @@
+
+1. Introduction
+
+Deep neural network architectures have undergone rapid evolution since the introduction of
+ResNets (He et al., 2016a). As illustrated in Fig. 1(a), the structure of a single-layer can be
+formulated as follows:
+
+x𝑙+1 = x𝑙 + F (x𝑙, W𝑙),
+(1)
+where x𝑙 and x𝑙+1 denote the 𝐶-dimensional input and output of the 𝑙-th layer, respectively,
+and F represents the residual function. Although the residual function F has evolved over
+the past decade to include various operations such as convolution, attention mechanisms, and
+feed forward networks, the paradigm of the residual connection has maintained its original
+form. Accompanying the progression of Transformer (Vaswani et al., 2017) architecture, this
+paradigm has currently established itself as a fundamental design element in large language
+models (LLMs) (Brown et al., 2020; Liu et al., 2024b; Touvron et al., 2023).
+
+This success is primarily attributed to the concise form of the residual connection. More
+importantly, early research (He et al., 2016b) revealed that the identity mapping property of the
+residual connection maintains stability and efficiency during large-scale training. By recursively
+extending the residual connection across multiple layers, Eq. (1) yields:
+
+x𝐿 = x𝑙 +
+
+𝐿−1∑︁
+
+𝑖=𝑙
+
+F (x𝑖, W𝑖),
+
+(2)
+
+where 𝐿 and 𝑙 correspond to deeper and shallower layers, respectively. The term identity
+mapping refers to the component x𝑙 itself, which emphasizes the property that the signal from
+the shallower layer maps directly to the deeper layer without any modification.
+
+Recently, studies exemplified by Hyper-Connections (HC) (Zhu et al., 2024) have introduced
+a new dimension to the residual connection and empirically demonstrated its performance
+potential. The single-layer architecture of HC is illustrated in Fig. 1(b). By expanding the width of
+the residual stream and enhancing connection complexity, HC significantly increases topological
+complexity without altering the computational overhead of individual units regarding FLOPs.
+Formally, single-layer propagation in HC is defined as:
+
+x𝑙+1 = H res
+
+𝑙 x𝑙 + H post ⊤
+
+𝑙
+
+F (H pre
+𝑙
+
+x𝑙, W𝑙),
+
+(3)
+
+where x𝑙 and x𝑙+1 denote the input and output of the 𝑙-th layer, respectively. Unlike the formu-
+lation in Eq. (1), the feature dimension of x𝑙 and x𝑙+1 is expanded from 𝐶 to 𝑛 × 𝐶, where 𝑛 is
+∈ R𝑛×𝑛 represents a learnable mapping that mixes features
+the expansion rate. The term H res
+within the residual stream. Also as a learnable mapping, H pre
+∈ R1×𝑛 aggregates features from
+the 𝑛𝐶-dim stream into a 𝐶-dim layer input, and conversely, H post
+∈ R1×𝑛 maps the layer output
+back onto the stream.
+
+𝑙
+
+𝑙
+
+𝑙
+
+However, as the training scale increases, HC introduces potential risks of instability. The
+primary concern is that the unconstrained nature of HC compromises the identity mapping
+property when the architecture extends across multiple layers. In architectures comprising
+multiple parallel streams, an ideal identity mapping serves as a conservation mechanism. It
+ensures that the average signal intensity across streams remains invariant during both forward
+and backward propagation. Recursively extending HC to multiple layers via Eq. (3) yields:
+
+x𝐿 =
+
+(cid:33)
+
+H res
+𝐿−𝑖
+
+x𝑙 +
+
+(cid:32) 𝐿−𝑙
+(cid:214)
+
+𝑖=1
+
+𝐿−1−𝑖
+(cid:214)
+
+𝑗=1
+
+𝐿−1∑︁
+
+𝑖=𝑙
+
+(cid:169)
+(cid:173)
+(cid:171)
+
+𝐿− 𝑗(cid:170)
+H res
+(cid:174)
+(cid:172)
+
+3
+
+H post ⊤
+𝑖
+
+F (H pre
+𝑖
+
+x𝑖, W𝑖),
+
+(4)

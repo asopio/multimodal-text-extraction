@@ -1,0 +1,186 @@
+18
+
+A. Appendix
+
+A.1. Detailed Model Specifications and Hyper-parameters.
+
+Table 5 | Detailed Model Specifications and Hyper-parameters. This table presents the architec-
+tural configurations for the 3B, 9B, and 27B models based on the DeepSeek-V3 (Liu et al., 2024b)
+architecture. It outlines the specific hyper-parameters for mHC and HC, including the residual
+stream expansion and Sinkhorn-Knopp settings, alongside the optimization and training proto-
+cols used in the experiments.
+
+Attribute
+
+Vocab Params
+Active Params
+Total Params
+
+Layers
+Leading Dense Layers
+Routed Experts
+Active Experts
+Shared Experts
+Dimension
+FFN Dimension
+Load Balancing Method
+Attention Heads
+Attention Dimension
+Attention Variant
+KV Rank
+Position Embedding
+RoPE Dimension
+RoPE 𝜃
+Layer Norm Type
+Layer Norm 𝜀
+mHC/HC Expansion Rate 𝑛
+mHC/HC Gating Factor Init 𝛼
+mHC Sinkhorn-Knopp 𝑡max
+
+Sequence Length
+Vocab Size
+Batch Size
+Training Steps
+Training Tokens
+Warmup Steps
+Optimizer
+AdamW Betas
+AdamW 𝜀
+Base Learning Rate
+Lr Scheduler
+Lr Decay Step Ratio
+Lr Decay Rate
+Weight Decay
+
+3B
+
+331M
+612M
+2.97B
+
+9B
+
+496M
+1.66B
+9.18B
+
+27B
+
+662M
+4.14B
+27.0B
+
+12
+
+64
+
+30
+
+72
+
+1280
+896
+
+2560
+1536
+
+18
+1
+64
+6
+2
+1920
+1280
+Loss-Free (Wang et al., 2024)
+24
+128
+MLA (Liu et al., 2024a)
+512
+RoPE (Su et al., 2024)
+64
+10000
+RMSNorm (Zhang and Sennrich, 2019)
+1e-20
+
+32
+
+16
+
+4
+0.01
+20
+
+320
+30000
+39.3B
+
+1280
+50000
+262B
+
+4096
+129280
+512
+50000
+105B
+2000
+AdamW (Loshchilov and Hutter, 2017)
+(0.9, 0.95)
+1e-20
+5.9e-4
+Step
+[0.8 ×, 0.9 ×]
+[0.316, 0.1]
+0.1
+
+8.6e-4
+
+4.0e-4
+
+19
+
+3B
+1T Tokens
+
+331M
+612M
+2.97B
+
+12
+1
+64
+6
+2
+1280
+896
+Loss-Free
+16
+128
+MLA
+512
+RoPE
+64
+10000
+RMSNorm
+1e-20
+
+4
+0.01
+20
+
+4096
+129280
+2560
+100000
+1.05T
+2000
+AdamW
+(0.9, 0.95)
+1e-20
+9.0e-4
+Step
+[0.8 ×, 0.9 ×]
+[0.316, 0.1]
+0.1
+
+
